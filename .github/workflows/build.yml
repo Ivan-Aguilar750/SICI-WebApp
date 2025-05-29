@@ -21,7 +21,7 @@ jobs:
           with:
             dotnet-version: ${{env.DOTNET_VERSION}}
         - name: Instala las dependencias del proyecto
-          run: dotnet restore SICI-WebApp/SICI-WebApp.csproj
+          run: dotnet restore 
 
         - name: Construye la aplicación
           run: dotnet build --configuration Release --no-restore
