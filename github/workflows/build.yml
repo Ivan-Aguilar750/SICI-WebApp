@@ -1,0 +1,38 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+
+name: build
+
+on:
+  push:
+    branches: [main]
+
+env:
+  AZURE_WEBAPP_NAME: 'SICI-WebApp'
+  AZURE_WEBAPP_PACKAGE_PATH: './publish'
+  DOTNET_VERSION: '8.0.X'
+
+jobs:
+  build:
+    name: Construye la aplicación
+    runs-on: ubuntu-latest
+    steps:
+      - name: Recupera el código fuente
+        uses: actions/checkout@v4
+
+      - name: Instala .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Instala las dependencias del proyecto
+        run: dotnet restore
+
+      - name: Construye la aplicación
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Publica la aplicación
+        run: dotnet publish --configuration Release --no-build --property:PublishDir='${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
